@@ -47,6 +47,15 @@ class LiveScoreboardTest {
     }
 
     @Test
+    void getsAnImmutableSnapshotForAnActiveMatch() {
+        long matchId = scoreboard.startMatch("Mexico", "Canada");
+        scoreboard.updateScore(matchId, 0, 5);
+
+        assertThat(scoreboard.getMatch(matchId))
+                .isEqualTo(new MatchSnapshot(matchId, "Mexico", "Canada", 0, 5));
+    }
+
+    @Test
     void summaryIsEmptyWhenNoMatchesAreActive() {
         assertThat(scoreboard.getSummary()).isEmpty();
     }
@@ -151,9 +160,13 @@ class LiveScoreboardTest {
         long matchId = scoreboard.startMatch("Mexico", "Canada");
         scoreboard.finishMatch(matchId);
 
+        assertThatThrownBy(() -> scoreboard.getMatch(matchId))
+                .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> scoreboard.updateScore(matchId, 1, 0))
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> scoreboard.finishMatch(matchId))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> scoreboard.getMatch(999))
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> scoreboard.updateScore(999, 1, 0))
                 .isInstanceOf(IllegalArgumentException.class);

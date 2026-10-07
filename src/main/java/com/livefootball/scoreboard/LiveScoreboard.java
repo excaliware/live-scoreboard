@@ -61,6 +61,15 @@ public final class LiveScoreboard {
     }
 
     /**
+     * Returns an immutable snapshot of an active match.
+     *
+     * @throws IllegalArgumentException if the ID does not identify an active match
+     */
+    public synchronized MatchSnapshot getMatch(long matchId) {
+        return requireActiveMatch(matchId).toSnapshot();
+    }
+
+    /**
      * Returns an immutable summary ordered by total score descending, then by
      * most recently started first for equal totals.
      */

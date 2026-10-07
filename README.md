@@ -64,11 +64,12 @@ The API intentionally avoids persistence, history, external dependencies, and a 
 LiveScoreboard scoreboard = new LiveScoreboard();
 long matchId = scoreboard.startMatch("Mexico", "Canada");
 scoreboard.updateScore(matchId, 0, 5);
+MatchSnapshot match = scoreboard.getMatch(matchId);
 List<MatchSnapshot> matches = scoreboard.getSummary();
 scoreboard.finishMatch(matchId);
 ```
 
-The API also includes an active-match lookup, `getMatch(matchId)`, which is being added in a separate follow-up commit as the one additional operation required by the brief.
+`getMatch(matchId)` is the one additional operation required by the brief. It returns a snapshot only while the match is active; unknown or finished IDs are rejected.
 
 `MatchSnapshot` exposes `matchId()`, `homeTeam()`, `awayTeam()`, `homeScore()`, `awayScore()`, and `totalScore()`. The snapshot and summary list are immutable.
 
