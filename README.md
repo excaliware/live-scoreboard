@@ -11,10 +11,8 @@ A library that supports multiple simultaneous matches, developed for a sports da
    Return the matches in progress ordered by:  
    * Total score (descending)
    * If tied → most recently started match first
-5. Add exactly one additional operation of your choice  
-   Add one feature of your own choice to the scoreboard. Include documentation in 
-   the README.md explaining your feature and why you chose it. Please ensure that 
-   there is a distinct git commit that introduces the feature.
+5.  Get a summary of a specific match  
+    It lets the caller retrieve the current state of a match currently in progress, without having to scan the full summary.
 
 
 ### Example Scenario
